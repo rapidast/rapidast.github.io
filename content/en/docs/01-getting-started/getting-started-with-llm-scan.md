@@ -12,7 +12,7 @@ This tutorial shows you how to
 
 ## LLM
 
-Create a YAML config file like the following:
+Create a YAML config file(e.g. config.yaml) like the following:
 
 ```yaml
 config:
@@ -27,4 +27,10 @@ scanners:
     model_name: gpt2   
 ```
 
-See [here](./examples/) for more examples on how to run RapiDAST in various CI/CD pipelines. 
+Run a scan:
+
+```sh
+$ podman run -v ./config.yaml:/opt/rapidast/config/config.yaml:Z quay.io/redhatproductsecurity/rapidast:latest
+```
+
+See [here](./run-in-container.md) for more information on running a scan

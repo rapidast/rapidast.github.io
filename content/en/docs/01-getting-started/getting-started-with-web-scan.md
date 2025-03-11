@@ -15,19 +15,27 @@ This tutorial shows you how to
 
 ## Web (OpenAPI based scanning)
 
+Create a YAML config file(e.g. config.yaml) like the following:
+
 ```yaml
 config:
   configVersion: 6
 
 application:
-  shortName: "jechoi-garak-test"
-  url: "localhost:1313"
+  shortName: "example-1.0"
+  url: "https://example.com" # root URL of the application
 
 scanners:
   zap:
-    spider:
-      url: ""
+    apiScan:
+      apis:
+        apiUrl: "https://example.com/api/v1/swagger.json" # URL to application openAPI spec
 ```
 
+Run a scan:
 
-See [here](./examples/) for more examples on how to run RapiDAST in various CI/CD pipelines. 
+```sh
+$ podman run -v ./config.yaml:/opt/rapidast/config/config.yaml:Z quay.io/redhatproductsecurity/rapidast:latest
+```
+
+See [here](./run-in-container.md) for more information on running a scan
