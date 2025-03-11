@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Getting Started on RapiDAST</title><link>https://example.docsy.dev/docs/01-getting-started/</link><description>Recent content in Getting Started on RapiDAST</description><generator>Hugo</generator><language>en</language><atom:link href="https://example.docsy.dev/docs/01-getting-started/index.xml" rel="self" type="application/rss+xml"/><item><title>Run in container</title><link>https://example.docsy.dev/docs/01-getting-started/run-in-container/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.docsy.dev/docs/01-getting-started/run-in-container/</guid><description>&lt;p>Run the pre-built &lt;a href="https://quay.io/repository/redhatproductsecurity/rapidast">rapidast container image&lt;/a>, which includes scanners like [ZAP]. Not compatible with config files using &lt;code>general.container.type&lt;/code> set to &lt;code>podman&lt;/code>.&lt;/p>
+&lt;p>&lt;strong>Prerequisites&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>docker&lt;/code> / &lt;code>podman&lt;/code> (&amp;gt;= v3.0.1)&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Run&lt;/strong>:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-sh" data-lang="sh">&lt;span style="display:flex;">&lt;span>$ podman run -v ./config.yaml:/opt/rapidast/config/config.yaml:Z quay.io/redhatproductsecurity/rapidast:latest
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>&lt;strong>Note&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>Sample config is very minimal and has no &lt;a href="https://example.docsy.dev/docs/01-getting-started/run-in-container/#authentication">Authentication&lt;/a> enabled&lt;/li>
+&lt;li>The &lt;code>:Z&lt;/code> option is only necessary on RHEL/CentOS/Fedora systems with SELinux enabled&lt;/li>
+&lt;li>To retrieve scan results, add a volume mount like &lt;code>-v ./results/:/opt/rapidast/results/:Z&lt;/code>. The permissions of the &lt;code>./results/&lt;/code> directory may need to be modified first with a command like &lt;code>chmod o+w ./results/&lt;/code> to be writeable by the rapidast user in the container.&lt;/li>
+&lt;li>RapiDAST images are currently built on the linux/amd64 architecture only. To run a scan on MacOS(arm64), use &lt;code>--platform=linux/amd64&lt;/code>.&lt;/li>
+&lt;/ul></description></item><item><title>Run from source</title><link>https://example.docsy.dev/docs/01-getting-started/run-from-source/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.docsy.dev/docs/01-getting-started/run-from-source/</guid><description>&lt;p>Install dependencies and run RapiDAST directly on a host machine. Unless using the config setting of &lt;code>general.container.type: podman&lt;/code>, scanners like [ZAP] are expected to be installed on the host system.&lt;/p>
+&lt;p>&lt;strong>Prerequisites&lt;/strong>:&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>python&lt;/code> &amp;gt;= 3.6.8 (3.7 for MacOS/Darwin)&lt;/li>
+&lt;li>&lt;code>podman&lt;/code> &amp;gt;= 3.0.1
+&lt;ul>
+&lt;li>required when you want to run scanners from their container images, rather than installing them to your host.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>See &lt;code>requirements.txt&lt;/code> for a list of required python libraries&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>Setup&lt;/strong>:&lt;/p>
+&lt;p>Clone the repository.&lt;/p></description></item><item><title>Getting started with a web scan</title><link>https://example.docsy.dev/docs/01-getting-started/getting-started-with-web-scan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.docsy.dev/docs/01-getting-started/getting-started-with-web-scan/</guid><description>&lt;p>This tutorial shows you how to&lt;/p>
+&lt;ol>
+&lt;li>Create a configuration file for testing the web application.&lt;/li>
+&lt;li>Run RapiDAST and get the results.
+&lt;ul>
+&lt;li>First run with passive scanning only, which can save time at the initial scanning phase. There are various situations that can cause an issue, not only from scanning set up but also from your application or test environment. Active scanning takes a long time in general.&lt;/li>
+&lt;li>Once passive Scanning has run successfully, run another scan with active scanning enabled in the configuration file.&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ol>
+&lt;h2 id="web-openapi-based-scanning">Web (OpenAPI based scanning)&lt;a class="td-heading-self-link" href="#web-openapi-based-scanning" aria-label="Heading self-link">&lt;/a>&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">config&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">configVersion&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#0000cf;font-weight:bold">6&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">application&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">shortName&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;jechoi-garak-test&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">url&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;localhost:1313&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">scanners&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">zap&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">spider&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">url&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>See &lt;a href="./examples/">here&lt;/a> for more examples on how to run RapiDAST in various CI/CD pipelines.&lt;/p></description></item><item><title>Getting started with a LLM AI scan</title><link>https://example.docsy.dev/docs/01-getting-started/getting-started-with-llm-scan/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://example.docsy.dev/docs/01-getting-started/getting-started-with-llm-scan/</guid><description>&lt;p>This tutorial shows you how to&lt;/p>
+&lt;ol>
+&lt;li>Create a configuration file for testing a LLM AI model.&lt;/li>
+&lt;li>Run RapiDAST and get the results.&lt;/li>
+&lt;/ol>
+&lt;h2 id="llm">LLM&lt;a class="td-heading-self-link" href="#llm" aria-label="Heading self-link">&lt;/a>&lt;/h2>
+&lt;p>Create a YAML config file like the following:&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-yaml" data-lang="yaml">&lt;span style="display:flex;">&lt;span>&lt;span style="color:#204a87;font-weight:bold">config&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">configVersion&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#0000cf;font-weight:bold">6&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">application&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">shortName&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#4e9a06">&amp;#34;garak-test-1.0&amp;#34;&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline">&lt;/span>&lt;span style="color:#204a87;font-weight:bold">scanners&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">garak&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">model_type&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">huggingface &lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#8f5902;font-style:italic"># required, e.g. hugginngface, openai, rest&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#204a87;font-weight:bold">model_name&lt;/span>&lt;span style="color:#000;font-weight:bold">:&lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline"> &lt;/span>&lt;span style="color:#000">gpt2 &lt;/span>&lt;span style="color:#f8f8f8;text-decoration:underline">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>See &lt;a href="./examples/">here&lt;/a> for more examples on how to run RapiDAST in various CI/CD pipelines.&lt;/p></description></item></channel></rss>
